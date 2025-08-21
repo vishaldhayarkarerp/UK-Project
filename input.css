@@ -62,7 +62,7 @@
 }
 
 .form-input-small {
-    width: 100%;
+    width: 50%;
     padding: 0.5rem;
     background-color: #374151;
     border: 1px solid #4b5563;
@@ -652,4 +652,220 @@ background-color: #be185d;
   background: #fce7f3;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(244, 114, 182, 0.15);
+}
+
+/* Add these styles to your existing input.css file */
+
+/* Sticky navigation buttons */
+.sticky-nav-buttons {
+    position: sticky;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    z-index: 100;
+}
+
+.nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    min-width: 120px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.prev-btn {
+    background-color: #4b5563;
+    color: white;
+}
+
+.prev-btn:hover {
+    background-color: #6b7280;
+    transform: translateY(-2px);
+}
+
+.next-btn {
+    background-color: var(--pink-primary);
+    color: white;
+}
+
+.next-btn:hover {
+    background-color: var(--pink-dark);
+    transform: translateY(-2px);
+}
+
+/* Smaller form inputs */
+.form-input-small {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 0.375rem;
+    color: white;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.form-input-small:focus {
+    outline: none;
+    border-color: var(--pink-light);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+.form-select-small {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 0.375rem;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-select-small:focus {
+    outline: none;
+    border-color: var(--pink-light);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+/* Animation for tab switching */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.section.active {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+/* Improved grid layout for better spacing */
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sticky-nav-buttons {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(31, 41, 55, 0.95);
+        padding: 1rem;
+        margin: 0;
+        border-top: 1px solid #4b5563;
+    }
+    
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-btn {
+        min-width: auto;
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Add smooth transitions for all interactive elements */
+.tab-btn, .yes-btn, .no-btn, .nav-btn, button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover effects for better interactivity */
+.tab-btn:hover {
+    transform: translateY(-1px);
+}
+
+.yes-btn:hover, .no-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Enhanced dropdown styling */
+.form-select-small {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f9a8d4'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1.2rem;
+    padding-right: 2.5rem;
+}
+
+.form-select-small:focus {
+    outline: none;
+    border-color: #f9a8d4;
+    box-shadow: 0 0 0 3px rgba(249, 168, 212, 0.2);
+    transform: translateY(-2px);
+}
+
+.form-select-small:hover {
+    border-color: #f9a8d4;
+    background-color: #4b5563;
+}
+
+/* Custom dropdown option styling */
+.form-select-small option {
+    background-color: #374151;
+    color: white;
+    padding: 0.5rem;
+}
+
+.form-select-small option:hover {
+    background-color: #f9a8d4 !important;
+    color: #1f2937 !important;
+}
+
+/* Animation for dropdown focus */
+@keyframes dropdownPulse {
+    0% { box-shadow: 0 0 0 0 rgba(249, 168, 212, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(249, 168, 212, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(249, 168, 212, 0); }
+}
+
+.form-select-small:focus {
+    animation: dropdownPulse 1.5s infinite;
 }

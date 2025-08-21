@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeYesNoButtons();
     initializeConditionalFields();
     initializeFormHandlers();
+    initializeNavigationButtons();
 });
 
 function initializeTabs() {
@@ -31,10 +32,75 @@ function initializeTabs() {
                 target.classList.add('active');
                 target.classList.remove('hidden');
             }
+            
+            // Update navigation buttons state
+            updateNavigationButtons();
+            
+            // Scroll to top of form
+            document.querySelector('.bg-gray-800.rounded-b-lg').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
         });
     });
 }
 
+// Initialize navigation buttons
+function initializeNavigationButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    prevBtn.addEventListener('click', navigateToPreviousTab);
+    nextBtn.addEventListener('click', navigateToNextTab);
+    
+    // Set initial state
+    updateNavigationButtons();
+}
+
+function navigateToPreviousTab() {
+    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+    const currentTab = document.querySelector('.tab-btn.active');
+    const currentIndex = tabs.indexOf(currentTab);
+    initializeTabs();
+    
+    if (currentIndex > 0) {
+        tabs[currentIndex - 1].click();
+    }
+}
+
+function navigateToNextTab() {
+    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+    const currentTab = document.querySelector('.tab-btn.active');
+    const currentIndex = tabs.indexOf(currentTab);
+    initializeTabs();
+    
+    if (currentIndex < tabs.length - 1) {
+        tabs[currentIndex + 1].click();
+    }
+}
+
+function updateNavigationButtons() {
+    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+    const currentTab = document.querySelector('.tab-btn.active');
+    const currentIndex = tabs.indexOf(currentTab);
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+   // Update previous button
+if (currentIndex === 0) {
+    prevBtn.style.visibility = 'hidden';
+} else {
+    prevBtn.style.visibility = 'visible';
+}
+
+// Update next button
+if (currentIndex === tabs.length - 1) {
+    nextBtn.style.visibility = 'hidden';
+} else {
+    nextBtn.style.visibility = 'visible';
+}
+}
 
 // Yes/No button functionality
 function initializeYesNoButtons() {
@@ -54,6 +120,12 @@ function initializeYesNoButtons() {
                 const allButtons = buttonGroup.querySelectorAll('.yes-btn, .no-btn');
                 allButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
+                
+                // Add animation effect
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
                 
                 // Handle conditional field visibility
                 handleConditionalFields(target, value);
@@ -76,6 +148,7 @@ function handleConditionalFields(fieldName, value) {
             if (pregnancyLossDetails) {
                 if (value === 'yes') {
                     pregnancyLossDetails.classList.remove('hidden');
+                    pregnancyLossDetails.style.animation = 'fadeIn 0.3s ease-in-out';
                 } else {
                     pregnancyLossDetails.classList.add('hidden');
                 }
@@ -87,6 +160,7 @@ function handleConditionalFields(fieldName, value) {
             if (multiplePregnancyDetails) {
                 if (value === 'yes') {
                     multiplePregnancyDetails.classList.remove('hidden');
+                    multiplePregnancyDetails.style.animation = 'fadeIn 0.3s ease-in-out';
                 } else {
                     multiplePregnancyDetails.classList.add('hidden');
                 }
@@ -108,7 +182,12 @@ function initializeFormHandlers() {
     
     // Reset button
     resetBtn.addEventListener('click', function() {
-        resetForm();
+        // Add animation effect
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+            resetForm();
+        }, 100);
     });
     
     // Input validation
@@ -140,6 +219,14 @@ function handleFormSubmission() {
         hideLoadingState();
         showSuccessMessage('Assessment completed successfully!');
         console.log('Form Data:', data);
+        
+        // Scroll to success message
+        setTimeout(() => {
+            const successMessage = document.querySelector('.success-message');
+            if (successMessage) {
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }, 100);
     }, 2000);
 }
 
@@ -149,7 +236,7 @@ function validateForm(data) {
     // Required field validation
     const requiredFields = [
         'maternal_age',
-        'current_gestation_weeks',
+        'gestation_weeks',
         'bmi'
     ];
     
@@ -197,7 +284,9 @@ function displayErrors(errors) {
     form.appendChild(errorDiv);
     
     // Scroll to error message
-    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setTimeout(() => {
+        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
 }
 
 function showSuccessMessage(message) {
@@ -210,9 +299,6 @@ function showSuccessMessage(message) {
         <p>${message}</p>
     `;
     form.appendChild(successDiv);
-    
-    // Scroll to success message
-    successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function removeMessages() {
@@ -225,12 +311,16 @@ function showLoadingState() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'CALCULATING...';
     document.getElementById('medicalForm').classList.add('loading');
+    
+    // Add pulsing animation
+    submitBtn.style.animation = 'pulse 1.5s infinite';
 }
 
 function hideLoadingState() {
     const submitBtn = document.querySelector('button[type="submit"]');
     submitBtn.disabled = false;
     submitBtn.innerHTML = 'CALCULATE';
+    submitBtn.style.animation = 'none';
     document.getElementById('medicalForm').classList.remove('loading');
 }
 
@@ -242,8 +332,19 @@ function resetForm() {
     const yesButtons = document.querySelectorAll('.yes-btn');
     const noButtons = document.querySelectorAll('.no-btn');
     
-    yesButtons.forEach(btn => btn.classList.remove('active'));
-    noButtons.forEach(btn => btn.classList.add('active'));
+    yesButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.backgroundColor = '#374151';
+        btn.style.color = '#9ca3af';
+        btn.style.borderColor = '#4b5563';
+    });
+    
+    noButtons.forEach(btn => {
+        btn.classList.add('active');
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+    });
     
     // Reset hidden inputs to 'no'
     const hiddenInputs = document.querySelectorAll('input[type="hidden"]');
@@ -265,6 +366,9 @@ function resetForm() {
     
     // Show success message
     showSuccessMessage('Form has been reset successfully!');
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function setupInputValidation() {
@@ -338,6 +442,19 @@ function setupInputValidation() {
             }
         });
     });
+    
+    // Add focus animation to inputs
+    const allInputs = document.querySelectorAll('input, select, textarea');
+    allInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.2s ease';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
 }
 
 // Auto-save functionality (optional)
@@ -361,9 +478,75 @@ function setupAutoSave() {
     });
 }
 
+// Add CSS animation for pulse effect
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+`;
+document.head.appendChild(style);
+
 // Export functions for external use
 window.MedicalQuestionnaire = {
     resetForm,
     validateForm,
-    handleFormSubmission
+    handleFormSubmission,
+    navigateToPreviousTab,
+    navigateToNextTab
 };
+
+const shortcuts = {
+  n: () => nextBtn.click(),
+  p: () => prevBtn.click()
+};
+document.addEventListener('keydown', (event) => {
+  if (event.altKey && shortcuts[event.key]) {
+    shortcuts[event.key]();
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  // Pregnancy Loss Modal
+  const pregnancyLossBtn = document.getElementById("pregnancyLossBtn");
+  const pregnancyLossModal = document.getElementById("pregnancyLossModal");
+  const closePregnancyLoss = document.getElementById("closePregnancyLoss");
+
+  if (pregnancyLossBtn) {
+    pregnancyLossBtn.addEventListener("click", () => {
+      pregnancyLossModal.classList.remove("hidden");
+    });
+
+    closePregnancyLoss.addEventListener("click", () => {
+      pregnancyLossModal.classList.add("hidden");
+      pregnancyLossBtn.textContent = "Show";
+    });
+  }
+
+  // APGAR Modal
+  const apgarBtn = document.getElementById("apgarBtn");
+  const apgarModal = document.getElementById("apgarModal");
+  const closeApgarModal = document.getElementById("closeApgarModal");
+
+  if (apgarBtn) {
+    apgarBtn.addEventListener("click", () => {
+      apgarModal.classList.remove("hidden");
+    });
+
+    closeApgarModal.addEventListener("click", () => {
+      apgarModal.classList.add("hidden");
+      apgarBtn.textContent = "Show"; // change button text
+    });
+  }
+});

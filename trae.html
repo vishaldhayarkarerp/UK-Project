@@ -3,646 +3,778 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Medical Data Form</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Set a nice, modern font -->
+    <title>Medical Assessment Questionnaire</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
+        :root {
+            --pink-primary: #e83e8c;
+            --pink-dark: #d81b60;
+            --pink-light: #ec407a;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Light gray background */
+            background-color: #111827;
+            color: white;
+            min-height: 100vh;
         }
-        /* Custom styling for radio and checkbox */
-        input[type="radio"], input[type="checkbox"] {
-            accent-color: #3b82f6;
+        
+        .header {
+            background-color: var(--pink-dark);
+            color: white;
+            padding: 1rem;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
         }
-        .form-section {
-            @apply bg-white p-6 rounded-2xl shadow-lg border border-gray-200 mb-8;
+        
+        .nav-tabs {
+            background-color: #1f2937;
+            border-bottom: 1px solid #4b5563;
+        }
+        
+        .nav-tabs .nav-link {
+            color: #9ca3af;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--pink-light);
+            background-color: rgba(168, 85, 247, 0.1);
+            border-bottom: 2px solid var(--pink-light);
+        }
+        
+        .nav-tabs .nav-link:hover:not(.active) {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-container {
+            background-color: #1f2937;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #e5e7eb;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: white;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: #374151;
+            border-color: var(--pink-light);
+            box-shadow: 0 0 0 0.25rem rgba(236, 64, 122, 0.25);
+            color: white;
+        }
+        
+        .yes-no-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .yes-btn, .no-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: 1px solid #4b5563;
+            background-color: #374151;
+            color: #9ca3af;
+        }
+        
+        .yes-btn.active, .no-btn.active {
+            background-color: var(--pink-primary);
+            color: white;
+            border-color: var(--pink-primary);
+        }
+        
+        .yes-btn:hover:not(.active), .no-btn:hover:not(.active) {
+            background-color: #4b5563;
+            color: white;
+        }
+        
+        .sticky-nav-buttons {
+            position: sticky;
+            bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            min-width: 120px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .prev-btn {
+            background-color: #4b5563;
+            color: white;
+        }
+        
+        .prev-btn:hover {
+            background-color: #6b7280;
+            transform: translateY(-2px);
+        }
+        
+        .next-btn {
+            background-color: var(--pink-primary);
+            color: white;
+        }
+        
+        .next-btn:hover {
+            background-color: var(--pink-dark);
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            color: #f9a8d4;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .sub-section-title {
+            color: #93c5fd;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .modal-content {
+            background-color: #1f2937;
+            color: white;
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid #4b5563;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #4b5563;
+        }
+        
+        .btn-close {
+            filter: invert(1);
+        }
+        
+        @media (max-width: 768px) {
+            .sticky-nav-buttons {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(31, 41, 55, 0.95);
+                padding: 1rem;
+                margin: 0;
+                border-top: 1px solid #4b5563;
+            }
+            
+            .nav-btn {
+                min-width: auto;
+                padding: 0.75rem 1rem;
+            }
+            
+            .yes-no-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            
+            .yes-btn, .no-btn {
+                width: 100%;
+                max-width: 120px;
+            }
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-7xl mx-auto">
-        <h1 class="text-4xl font-extrabold text-gray-900 text-center mb-6">Patient Medical Data Form</h1>
-        <p class="text-center text-gray-600 mb-12">Please fill out the following details for the patient's record.</p>
+<body>
+    <div class="container my-4">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="h5 mb-0">Medical Assessment</h1>
+        </div>
 
-        <!-- Main form container -->
-        <form class="space-y-12">
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="maternal-tab" data-bs-toggle="tab" data-bs-target="#maternal" type="button" role="tab">Maternal</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="placental-tab" data-bs-toggle="tab" data-bs-target="#placental" type="button" role="tab">Placental</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="foetal-tab" data-bs-toggle="tab" data-bs-target="#foetal" type="button" role="tab">Foetal</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cordBlood-tab" data-bs-toggle="tab" data-bs-target="#cordBlood" type="button" role="tab">Cord Blood</button>
+            </li>
+        </ul>
 
-            <!-- A) Maternal Variables Section -->
-            <div class="form-section">
-                <h2 class="text-2xl font-bold text-blue-700 mb-6">A) Maternal Variables</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- Maternal age -->
-                    <div class="flex flex-col">
-                        <label for="maternal-age" class="block text-sm font-medium text-gray-700 mb-1">x1: Maternal age (years)</label>
-                        <input type="number" id="maternal-age" name="maternal-age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition-colors p-2" min="10" max="60">
-                    </div>
-
-                    <!-- Maternal parity -->
-                    <div class="flex flex-col">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">x2: Maternal parity</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <div class="flex items-center">
-                                <input type="radio" id="primigravida" name="maternal-parity" value="primigravida" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
-                                <label for="primigravida" class="ml-2 block text-sm text-gray-900">Primigravida</label>
+        <!-- Form Container -->
+        <div class="form-container">
+            <form id="medicalForm">
+                <div class="tab-content" id="myTabContent">
+                    <!-- Maternal Variables Section -->
+                    <div class="tab-pane fade show active" id="maternal" role="tabpanel" tabindex="0">
+                        <h2 class="section-title">Maternal Variables</h2>
+                        
+                        <div class="row">
+                            <!-- Maternal Age -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">1. Maternal Age</label>
+                                <input type="number" name="maternal_age" class="form-control" placeholder="Enter age in years">
                             </div>
-                            <div class="flex items-center">
-                                <input type="radio" id="multiparous" name="maternal-parity" value="multiparous" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
-                                <label for="multiparous" class="ml-2 block text-sm text-gray-900">Multiparous</label>
+
+                            <!-- Maternal Parity -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">2. Maternal Parity</label>
+                                <select name="maternal_parity" class="form-select">
+                                    <option value="">Please select</option>
+                                    <option value="primigravida">Primigravida</option>
+                                    <option value="multiparous">Multiparous</option>
+                                </select>
+                            </div>
+
+                            <!-- Number of Previous Pregnancies -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">3. Number of Previous Pregnancies</label>
+                                <input type="number" name="prev_pregnancies" class="form-control" placeholder="Enter number">
+                            </div>
+
+                            <!-- Current Gestational Age -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">4. Current Gestational Age in Weeks</label>
+                                <input type="number" name="gestation_weeks" class="form-control" placeholder="Weeks" max="42">
+                            </div>
+
+                            <!-- Previous IUD/Stillbirth -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">5. Previous IUD/Stillbirth ?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="prev_iud_stillbirth" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="prev_iud_stillbirth" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="prev_iud_stillbirth" value="no">
+                            </div>
+
+                            <!-- Previous IUGR/SGA -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">6. Previous IUGR/SGA?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="prev_iugr_sga" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="prev_iugr_sga" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="prev_iugr_sga" value="no">
+                            </div>
+
+                            <!-- Pregnancy Loss History -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">7. History of Pregnancy Loss?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" id="pregnancyLossBtn" class="yes-btn" data-target="pregnancy_loss" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="pregnancy_loss" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="pregnancy_loss" value="no">
+                            </div>
+
+                            <!-- PAPP-A Level -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">8. PAPP-A Level</label>
+                                <input type="number" step="0.01" name="papp_a_level" class="form-control" placeholder="Enter PAPP-A level">
+                            </div>
+
+                            <!-- Hypertension in Pregnancy -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">9. Hypertension in Pregnancy?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="hypertension" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="hypertension" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="hypertension" value="no">
+                            </div>
+
+                            <!-- Diabetes in Pregnancy -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">10. Diabetes in Pregnancy?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="diabetes" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="diabetes" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="diabetes" value="no">
+                            </div>
+
+                            <!-- Maternal Autoimmune Disorders -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">11. Maternal Autoimmune Disorders?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="autoimmune" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="autoimmune" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="autoimmune" value="no">
+                            </div>
+
+                            <!-- BMI -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">12. BMI</label>
+                                <input type="number" step="0.1" name="bmi" class="form-control" placeholder="Enter BMI">
+                            </div>
+
+                            <!-- Race -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                <label class="form-label">13. Race</label>
+                                <select name="race" class="form-select">
+                                    <option value="">Please select</option>
+                                    <option value="caucasian">Caucasian</option>
+                                    <option value="asian">Asian</option>
+                                    <option value="african">African</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Previous pregnancies details -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-1">
-                        <label for="prev-pregnancy-details" class="block text-sm font-medium text-gray-700 mb-1">No of previous pregnancies / Antenatal problems / Outcomes</label>
-                        <textarea id="prev-pregnancy-details" name="prev-pregnancy-details" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                    </div>
-
-                    <!-- Previous IUD / stillbirth -->
-                    <div class="flex flex-col">
-                        <label for="prev-poor-outcomes" class="block text-sm font-medium text-gray-700 mb-1">x12: Previous IUD / stillbirth / poor neonatal outcomes</label>
-                        <select id="prev-poor-outcomes" name="prev-poor-outcomes" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-
-                    <!-- Previous IUGR/SGA -->
-                    <div class="flex flex-col">
-                        <label for="prev-iugr" class="block text-sm font-medium text-gray-700 mb-1">Previous IUGR/SGA</label>
-                        <select id="prev-iugr" name="prev-iugr" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-
-                    <!-- Gynaecological history -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-1">
-                        <label for="gyn-history" class="block text-sm font-medium text-gray-700 mb-1">Gynaecological history (pregnancy loss)</label>
-                        <textarea id="gyn-history" name="gyn-history" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                            <div>
-                                <label for="first-trimester-loss" class="block text-xs font-medium text-gray-500">First trimester loss (count)</label>
-                                <input type="number" id="first-trimester-loss" name="first-trimester-loss" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1 text-sm" min="0">
+                    <!-- Placental Variables Section -->
+                    <div class="tab-pane fade" id="placental" role="tabpanel" tabindex="0">
+                        <h2 class="section-title">Placental Variables</h2>
+                        
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <label class="form-label">1. APLA Syndrome/Placental Pathology?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="apla_syndrome" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="apla_syndrome" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="apla_syndrome" value="no">
                             </div>
-                            <div>
-                                <label for="second-trimester-loss" class="block text-xs font-medium text-gray-500">Second trimester loss (count)</label>
-                                <input type="number" id="second-trimester-loss" name="second-trimester-loss" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1 text-sm" min="0">
+
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <label class="form-label">2. Previous/Current Pre-eclampsia?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="preeclampsia" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="preeclampsia" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="preeclampsia" value="no">
                             </div>
-                            <div>
-                                <label for="third-trimester-loss" class="block text-xs font-medium text-gray-500">Third trimester loss (count)</label>
-                                <input type="number" id="third-trimester-loss" name="third-trimester-loss" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1 text-sm" min="0">
+
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <label class="form-label">3. Placental Abnormality</label>
+                                <select name="placental_abnormality" class="form-select">
+                                    <option value="">Please select</option>
+                                    <option value="none">None</option>
+                                    <option value="abruption">Abruption</option>
+                                    <option value="calcified">Calcified</option>
+                                    <option value="small_placenta">Small Placenta</option>
+                                    <option value="true_knot">True Knot in Cord</option>
+                                    <option value="abnormal_placentation">Abnormal Placentation</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Current Gestation age -->
-                    <div class="flex flex-col">
-                        <label for="current-gestation" class="block text-sm font-medium text-gray-700 mb-1">x3: Current Gestation age (weeks)</label>
-                        <input type="number" id="current-gestation" name="current-gestation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" min="1" max="45">
-                    </div>
+                    <!-- Foetal Variables Section -->
+                    <div class="tab-pane fade" id="foetal" role="tabpanel" tabindex="0">
+                        <h2 class="section-title">Foetal Variables</h2>
+                        
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <label class="form-label">1. Current IUGR?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="current_iugr" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="current_iugr" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="current_iugr" value="no">
+                            </div>
 
-                    <!-- PAPP-A level -->
-                    <div class="flex flex-col">
-                        <label for="papp-a-level" class="block text-sm font-medium text-gray-700 mb-1">x4: PAPP-A level</label>
-                        <input type="number" id="papp-a-level" name="papp-a-level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" step="0.01">
-                    </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <label class="form-label">2. Abnormal Dopplers?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="abnormal_dopplers" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="abnormal_dopplers" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="abnormal_dopplers" value="no">
+                            </div>
 
-                    <!-- Medical disorder in current pregnancy -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-3">
-                        <p class="block text-sm font-medium text-gray-700 mb-1">Medical disorder in current pregnancy?</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2">
-                            <div class="flex items-center space-x-2">
-                                <label for="hypertension-yes" class="text-sm text-gray-900">x5: Hypertension</label>
-                                <div class="flex space-x-2">
-                                    <label class="inline-flex items-center"><input type="radio" name="hypertension" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">Yes</span></label>
-                                    <label class="inline-flex items-center"><input type="radio" name="hypertension" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">No</span></label>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <label class="form-label">3. Multiple Pregnancy?</label>
+                                <div class="yes-no-group">
+                                    <button type="button" class="yes-btn" data-target="multiple_pregnancy" data-value="yes">
+                                        ✓ YES
+                                    </button>
+                                    <button type="button" class="no-btn active" data-target="multiple_pregnancy" data-value="no">
+                                        ✓ NO
+                                    </button>
+                                </div>
+                                <input type="hidden" name="multiple_pregnancy" value="no">
+                                
+                                <div id="multiplePregnancyDetails" class="mt-3 ms-3 d-none">
+                                    <div class="mb-2">
+                                        <label class="form-label">Type</label>
+                                        <select name="multiple_type" class="form-select">
+                                            <option value="">Please select</option>
+                                            <option value="twins">Twins</option>
+                                            <option value="triplets">Triplets</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Chorionicity & Zygocity</label>
+                                        <input type="text" name="chorionicity_zygocity" class="form-control" placeholder="Specify">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <label for="diabetes-yes" class="text-sm text-gray-900">x6: Diabetes</label>
-                                <div class="flex space-x-2">
-                                    <label class="inline-flex items-center"><input type="radio" name="diabetes" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">Yes</span></label>
-                                    <label class="inline-flex items-center"><input type="radio" name="diabetes" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">No</span></label>
-                                </div>
+
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <label class="form-label">4. Presentation</label>
+                                <select name="presentation" class="form-select">
+                                    <option value="">Please select</option>
+                                    <option value="cephalic">Cephalic</option>
+                                    <option value="breech">Breech</option>
+                                    <option value="transverse">Transverse</option>
+                                </select>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <label for="autoimmune-yes" class="text-sm text-gray-900">Autoimmune disorder</label>
-                                <div class="flex space-x-2">
-                                    <label class="inline-flex items-center"><input type="radio" name="autoimmune" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">Yes</span></label>
-                                    <label class="inline-flex items-center"><input type="radio" name="autoimmune" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">No</span></label>
-                                </div>
+
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <label class="form-label">5. Birth Weight (grams)</label>
+                                <input type="number" name="birth_weight" class="form-control" placeholder="Enter birth weight">
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Smoking in pregnancy -->
-                    <div class="flex flex-col">
-                        <label for="smoking-yes" class="block text-sm font-medium text-gray-700 mb-1">x7: Smoking in pregnancy</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="smoking" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="smoking" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Reduced foetal movements -->
-                    <div class="flex flex-col">
-                        <label for="reduced-movements-yes" class="block text-sm font-medium text-gray-700 mb-1">x8: Reduced foetal movements</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="reduced-movements" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="reduced-movements" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                            <input type="number" name="movements-episodes" placeholder="Episodes" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1" min="0">
-                        </div>
-                    </div>
-
-                    <!-- Bleeding in pregnancy -->
-                    <div class="flex flex-col">
-                        <label for="bleeding-yes" class="block text-sm font-medium text-gray-700 mb-1">x9: Bleeding in pregnancy / labor</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="bleeding" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="bleeding" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Any medications -->
-                    <div class="flex flex-col">
-                        <label for="medications" class="block text-sm font-medium text-gray-700 mb-1">x10: Any medications in pregnancy?</label>
-                        <textarea id="medications" name="medications" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                    </div>
-
-                    <!-- Induction of labor -->
-                    <div class="flex flex-col col-span-1 md:col-span-2">
-                        <label for="induction-yes" class="block text-sm font-medium text-gray-700 mb-1">x11: Induction of labor</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="induction" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="induction" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                        <div class="mt-2 space-y-2">
-                            <input type="text" name="induction-method" placeholder="Method, medication, and total dose" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                        </div>
-                    </div>
-
-                    <!-- Infection in pregnancy -->
-                    <div class="flex flex-col">
-                        <label for="infection-yes" class="block text-sm font-medium text-gray-700 mb-1">x13: Infection in pregnancy</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="infection" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="infection" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Rupture of membranes -->
-                    <div class="flex flex-col">
-                        <label for="rom-date" class="block text-sm font-medium text-gray-700 mb-1">x15: Date and time of rupture of membranes</label>
-                        <input type="datetime-local" id="rom-date" name="rom-date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-
-                    <!-- Color of liquor -->
-                    <div class="flex flex-col">
-                        <label for="liquor-color" class="block text-sm font-medium text-gray-700 mb-1">x16: Color of liquor</label>
-                        <select id="liquor-color" name="liquor-color" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="clear">Clear</option>
-                            <option value="meconium">Meconium</option>
-                            <option value="blood-stained">Blood stained</option>
-                            <option value="pus">Pus</option>
-                        </select>
-                    </div>
-
-                    <!-- Smell of liquor -->
-                    <div class="flex flex-col">
-                        <label for="liquor-smell" class="block text-sm font-medium text-gray-700 mb-1">x17: Smell of liquor</label>
-                        <select id="liquor-smell" name="liquor-smell" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="no-smell">No smell</option>
-                            <option value="offensive">Offensive smell</option>
-                        </select>
-                    </div>
-
-                    <!-- Slow progress -->
-                    <div class="flex flex-col">
-                        <label for="slow-progress-yes" class="block text-sm font-medium text-gray-700 mb-1">x18: Slow progress</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="slow-progress" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="slow-progress" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Epidural -->
-                    <div class="flex flex-col">
-                        <label for="epidural-yes" class="block text-sm font-medium text-gray-700 mb-1">x19: Epidural</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="epidural" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="epidural" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Oxytocin augmentation -->
-                    <div class="flex flex-col">
-                        <label for="oxytocin-yes" class="block text-sm font-medium text-gray-700 mb-1">x20: Oxytocin augmentation</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="oxytocin" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="oxytocin" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                            <input type="number" name="oxytocin-hours" placeholder="Hours" class="w-24 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1" min="0">
-                        </div>
-                    </div>
-
-                    <!-- BMI -->
-                    <div class="flex flex-col">
-                        <label for="bmi" class="block text-sm font-medium text-gray-700 mb-1">x21: BMI</label>
-                        <input type="number" id="bmi" name="bmi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" step="0.1">
-                    </div>
-
-                    <!-- Race -->
-                    <div class="flex flex-col">
-                        <label for="race" class="block text-sm font-medium text-gray-700 mb-1">x22: Race</label>
-                        <select id="race" name="race" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="caucasian">Caucasian</option>
-                            <option value="asian">Asian</option>
-                            <option value="african">African</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <input type="text" name="race-other" placeholder="Specify if 'other'" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-
-                    <!-- IVF -->
-                    <div class="flex flex-col col-span-1 md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">IVF?</label>
-                        <div class="flex flex-wrap gap-4 mt-2">
-                            <div class="flex items-center space-x-2">
-                                <label for="ivf-fresh" class="text-sm text-gray-900">x23: Own fresh embryos</label>
-                                <div class="flex space-x-2">
-                                    <label class="inline-flex items-center"><input type="radio" name="ivf-fresh" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">Yes</span></label>
-                                    <label class="inline-flex items-center"><input type="radio" name="ivf-fresh" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">No</span></label>
-                                </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <label class="form-label">6. Baby's Sex</label>
+                                <select name="baby_sex" class="form-select">
+                                    <option value="">Please select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="ambiguous">Ambiguous Genitalia</option>
+                                </select>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <label for="ivf-frozen" class="text-sm text-gray-900">x23: Own frozen embryos</label>
-                                <div class="flex space-x-2">
-                                    <label class="inline-flex items-center"><input type="radio" name="ivf-frozen" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">Yes</span></label>
-                                    <label class="inline-flex items-center"><input type="radio" name="ivf-frozen" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-1 text-gray-700">No</span></label>
+
+                            <div class="col-md-6 col-lg-6 mb-3">
+                                <label class="form-label">7. APGAR Scores</label>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label class="form-label">1 Minute</label>
+                                        <input type="number" name="apgar_1min" class="form-control" min="0" max="10" placeholder="0-10">
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="form-label">5 Minutes</label>
+                                        <input type="number" name="apgar_5min" class="form-control" min="0" max="10" placeholder="0-10">
+                                    </div>
+                                    <div class="col-4">
+                                        <label class="form-label">10 Minutes</label>
+                                        <input type="number" name="apgar_10min" class="form-control" min="0" max="10" placeholder="0-10">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- IVF (donor) -->
-                    <div class="flex flex-col col-span-1 md:col-span-2">
-                        <label for="ivf-donor" class="block text-sm font-medium text-gray-700 mb-1">x24: IVF (donor oocyte)?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="ivf-donor" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="ivf-donor" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                            <input type="number" name="donor-age" placeholder="Donor age" class="w-32 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1" min="10" max="60">
-                        </div>
-                    </div>
-                    
-                    <!-- Male factor IVF -->
-                    <div class="flex flex-col">
-                        <label for="male-factor-yes" class="block text-sm font-medium text-gray-700 mb-1">x25: Male factor indicated IVF?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="male-factor" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="male-factor" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                        <input type="text" name="male-factor-reason" placeholder="Specify if 'yes'" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-
-                    <!-- ICSI/IMSI -->
-                    <div class="flex flex-col">
-                        <label for="icsi-yes" class="block text-sm font-medium text-gray-700 mb-1">x26: ICSI/IMSI</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="icsi" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="icsi" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Maternal fever -->
-                    <div class="flex flex-col">
-                        <label for="maternal-fever" class="block text-sm font-medium text-gray-700 mb-1">x28: Maternal fever in labor</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="maternal-fever" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="maternal-fever" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Maternal sepsis -->
-                    <div class="flex flex-col">
-                        <label for="maternal-sepsis" class="block text-sm font-medium text-gray-700 mb-1">x29: Maternal sepsis in labor</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="maternal-sepsis" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="maternal-sepsis" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Other maternal condition -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-3">
-                        <label for="other-maternal" class="block text-sm font-medium text-gray-700 mb-1">x30: Any other maternal condition?</label>
-                        <textarea id="other-maternal" name="other-maternal" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                    </div>
-
-                    <!-- Maternal medications in labor -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-3">
-                        <label for="maternal-meds-labor" class="block text-sm font-medium text-gray-700 mb-1">x31: Maternal medications in labor</label>
-                        <textarea id="maternal-meds-labor" name="maternal-meds-labor" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- B) Placental Variables Section -->
-            <div class="form-section">
-                <h2 class="text-2xl font-bold text-blue-700 mb-6">B) Placental Variables</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- APLA syndrome / placental pathology -->
-                    <div class="flex flex-col">
-                        <label for="apla-syndrome" class="block text-sm font-medium text-gray-700 mb-1">x32: APLA syndrome / placental pathology</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="apla-syndrome" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="apla-syndrome" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Previous/current pre-eclampsia -->
-                    <div class="flex flex-col">
-                        <label for="pre-eclampsia" class="block text-sm font-medium text-gray-700 mb-1">x33: Previous / current pre-eclampsia</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="pre-eclampsia" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="pre-eclampsia" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Placental abnormality -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-1">
-                        <label for="placental-abnormality" class="block text-sm font-medium text-gray-700 mb-1">x34: Placental abnormality</label>
-                        <textarea id="placental-abnormality" name="placental-abnormality" rows="3" placeholder="abruption / calcified / small placenta / true knot in the cord / abnormal placentation: specify" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- C) Faetal Variables Section -->
-            <div class="form-section">
-                <h2 class="text-2xl font-bold text-blue-700 mb-6">C) Faetal Variables</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- Current IUGR -->
-                    <div class="flex flex-col">
-                        <label for="current-iugr" class="block text-sm font-medium text-gray-700 mb-1">x35: Current IUGR</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="current-iugr" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="current-iugr" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Abnormal dopplers -->
-                    <div class="flex flex-col">
-                        <label for="abnormal-dopplers" class="block text-sm font-medium text-gray-700 mb-1">x36: Abnormal dopplers</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="abnormal-dopplers" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="abnormal-dopplers" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Oligohydramnios -->
-                    <div class="flex flex-col">
-                        <label for="oligohydramnios" class="block text-sm font-medium text-gray-700 mb-1">x37: Oligohydramnios</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="oligohydramnios" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="oligohydramnios" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Multiple pregnancy -->
-                    <div class="flex flex-col col-span-1 md:col-span-2">
-                        <label for="multiple-pregnancy" class="block text-sm font-medium text-gray-700 mb-1">x38: Multiple pregnancy</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="multiple-pregnancy" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="multiple-pregnancy" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                        <div class="mt-2 space-y-2">
-                            <input type="text" name="multiple-pregnancy-type" placeholder="Type (e.g., twin, triplets)" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            <input type="text" name="chorionicity" placeholder="Chorionicity & Zygocity" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                        </div>
-                    </div>
-
-                    <!-- Malpresentation -->
-                    <div class="flex flex-col">
-                        <label for="malpresentation" class="block text-sm font-medium text-gray-700 mb-1">x39: Malpresentation</label>
-                        <select id="malpresentation" name="malpresentation" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="cephalic">Cephalic</option>
-                            <option value="breech">Breech</option>
-                            <option value="transverse">Transverse</option>
-                        </select>
-                    </div>
-
-                    <!-- Delivery details -->
-                    <div class="flex flex-col col-span-1 md:col-span-2">
-                        <label for="delivery-mode" class="block text-sm font-medium text-gray-700 mb-1">x40: Mode of delivery</label>
-                        <select id="delivery-mode" name="delivery-mode" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="spontaneous">Spontaneous</option>
-                            <option value="instrumental">Instrumental</option>
-                            <option value="caesarean">Caesarean section</option>
-                        </select>
-                        <input type="text" name="delivery-indication" placeholder="Indication (if Caesarean)" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-
-                    <!-- Cord around neck -->
-                    <div class="flex flex-col">
-                        <label for="cord-neck" class="block text-sm font-medium text-gray-700 mb-1">Cord around neck?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="cord-neck" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="cord-neck" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- Placental abruption -->
-                    <div class="flex flex-col">
-                        <label for="placental-abruption" class="block text-sm font-medium text-gray-700 mb-1">Placental abruption</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="placental-abruption" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="placental-abruption" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-                    
-                    <!-- Baby's birth weight -->
-                    <div class="flex flex-col">
-                        <label for="birth-weight" class="block text-sm font-medium text-gray-700 mb-1">Baby’s birth weight (grams)</label>
-                        <input type="number" id="birth-weight" name="birth-weight" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2" step="1">
-                    </div>
-
-                    <!-- Baby's sex -->
-                    <div class="flex flex-col">
-                        <label for="baby-sex" class="block text-sm font-medium text-gray-700 mb-1">Baby’s sex</label>
-                        <select id="baby-sex" name="baby-sex" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                            <option value="">Select</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="ambiguous">Ambiguous genitalia</option>
-                        </select>
-                    </div>
-
-                    <!-- Time and date of birth -->
-                    <div class="flex flex-col">
-                        <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Time and date of birth</label>
-                        <input type="datetime-local" id="dob" name="dob" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-
-                    <!-- Baby cried at birth -->
-                    <div class="flex flex-col">
-                        <label for="cried-at-birth" class="block text-sm font-medium text-gray-700 mb-1">Baby cried at birth?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="cried-at-birth" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="cried-at-birth" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-
-                    <!-- APGAR scores -->
-                    <div class="flex flex-col col-span-1 md:col-span-2">
-                        <p class="block text-sm font-medium text-gray-700 mb-1">APGAR score (1-10)</p>
-                        <div class="flex flex-wrap gap-4 mt-2">
-                            <div class="flex items-center space-x-2">
-                                <label for="apgar-1min" class="text-sm text-gray-900">1 minute</label>
-                                <input type="number" id="apgar-1min" name="apgar-1min" min="0" max="10" class="w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1">
+                    <!-- Cord Blood Section -->
+                    <div class="tab-pane fade" id="cordBlood" role="tabpanel" tabindex="0">
+                        <h2 class="section-title">Cord Blood Analysis</h2>
+                        
+                        <div class="row">
+                            <!-- Arterial -->
+                            <div class="col-lg-6 mb-4">
+                                <h3 class="sub-section-title">Arterial</h3>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">pH</label>
+                                        <input type="number" step="0.001" name="arterial_ph" class="form-control" placeholder="7.000">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Base Excess</label>
+                                        <input type="number" step="0.1" name="arterial_base_excess" class="form-control" placeholder="mEq/L">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Lactate</label>
+                                        <input type="number" step="0.1" name="arterial_lactate" class="form-control" placeholder="mmol/L">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Foetal Hb</label>
+                                        <input type="number" step="0.1" name="arterial_hb" class="form-control" placeholder="g/dL">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">pO2</label>
+                                        <input type="number" step="0.1" name="arterial_po2" class="form-control" placeholder="mmHg">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">pCO2</label>
+                                        <input type="number" step="0.1" name="arterial_pco2" class="form-control" placeholder="mmHg">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">HCO3</label>
+                                        <input type="number" step="0.1" name="arterial_hco3" class="form-control" placeholder="mEq/L">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <label for="apgar-5min" class="text-sm text-gray-900">5 minutes</label>
-                                <input type="number" id="apgar-5min" name="apgar-5min" min="0" max="10" class="w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1">
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <label for="apgar-10min" class="text-sm text-gray-900">10 minutes</label>
-                                <input type="number" id="apgar-10min" name="apgar-10min" min="0" max="10" class="w-20 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-1">
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Neonatal resuscitation -->
-                    <div class="flex flex-col">
-                        <label for="resuscitation" class="block text-sm font-medium text-gray-700 mb-1">Neonatal resuscitation required?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="resuscitation" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="resuscitation" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                        <input type="text" name="resuscitation-reason" placeholder="Specify if 'yes'" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-                    
-                    <!-- Suspected neonatal congenital malformations -->
-                    <div class="flex flex-col">
-                        <label for="malformations" class="block text-sm font-medium text-gray-700 mb-1">Suspected neonatal congenital malformations?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="malformations" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="malformations" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                    </div>
-                    
-                    <!-- Neonatal ICU admission -->
-                    <div class="flex flex-col">
-                        <label for="nicu-admission" class="block text-sm font-medium text-gray-700 mb-1">Neonatal ICU admission?</label>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <label class="inline-flex items-center"><input type="radio" name="nicu-admission" value="yes" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">Yes</span></label>
-                            <label class="inline-flex items-center"><input type="radio" name="nicu-admission" value="no" class="form-radio h-4 w-4 text-blue-600"> <span class="ml-2 text-gray-700">No</span></label>
-                        </div>
-                        <input type="text" name="nicu-reason" placeholder="Specify reason" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                    </div>
-                    
-                    <!-- Other birth findings -->
-                    <div class="flex flex-col col-span-1 md:col-span-2 lg:col-span-3">
-                        <label for="other-birth-findings" class="block text-sm font-medium text-gray-700 mb-1">Any other birth related findings</label>
-                        <textarea id="other-birth-findings" name="other-birth-findings" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"></textarea>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- D) Foetal Cord pH / Cord Blood Section -->
-            <div class="form-section">
-                <h2 class="text-2xl font-bold text-blue-700 mb-6">D) Foetal Cord pH & Cord Blood Analysis</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Arterial Blood -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Arterial Cord Blood</h3>
-                        <div class="space-y-4">
-                            <div class="flex flex-col">
-                                <label for="arterial-ph" class="block text-sm font-medium text-gray-700 mb-1">Y1: pH</label>
-                                <input type="number" id="arterial-ph" name="arterial-ph" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="arterial-be" class="block text-sm font-medium text-gray-700 mb-1">Y3: Base excess</label>
-                                <input type="number" id="arterial-be" name="arterial-be" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="arterial-lactate" class="block text-sm font-medium text-gray-700 mb-1">Y4: Lactate</label>
-                                <input type="number" id="arterial-lactate" name="arterial-lactate" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="arterial-hb" class="block text-sm font-medium text-gray-700 mb-1">Y5: Foetal Hb</label>
-                                <input type="number" id="arterial-hb" name="arterial-hb" step="0.1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="arterial-po2" class="block text-sm font-medium text-gray-700 mb-1">Y6: pO2</label>
-                                <input type="number" id="arterial-po2" name="arterial-po2" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="arterial-pco2" class="block text-sm font-medium text-gray-700 mb-1">Y7: pCO2</label>
-                                <input type="number" id="arterial-pco2" name="arterial-pco2" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="arterial-hco3" class="block text-sm font-medium text-gray-700 mb-1">Y8: HCO3</label>
-                                <input type="number" id="arterial-hco3" name="arterial-hco3" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Venous Blood -->
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Venous Cord Blood</h3>
-                        <div class="space-y-4">
-                            <div class="flex flex-col">
-                                <label for="venous-ph" class="block text-sm font-medium text-gray-700 mb-1">Y9: pH</label>
-                                <input type="number" id="venous-ph" name="venous-ph" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="venous-be" class="block text-sm font-medium text-gray-700 mb-1">Y10: Base excess</label>
-                                <input type="number" id="venous-be" name="venous-be" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="venous-lactate" class="block text-sm font-medium text-gray-700 mb-1">Y11: Lactate</label>
-                                <input type="number" id="venous-lactate" name="venous-lactate" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="venous-hb" class="block text-sm font-medium text-gray-700 mb-1">Y12: Foetal Hb</label>
-                                <input type="number" id="venous-hb" name="venous-hb" step="0.1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="venous-po2" class="block text-sm font-medium text-gray-700 mb-1">Y13: pO2</label>
-                                <input type="number" id="venous-po2" name="venous-po2" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="venous-pco2" class="block text-sm font-medium text-gray-700 mb-1">Y14: pCO2</label>
-                                <input type="number" id="venous-pco2" name="venous-pco2" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="venous-hco3" class="block text-sm font-medium text-gray-700 mb-1">Y15: HCO3</label>
-                                <input type="number" id="venous-hco3" name="venous-hco3" step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
+                            <!-- Venous -->
+                            <div class="col-lg-6 mb-4">
+                                <h3 class="sub-section-title">Venous</h3>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">pH</label>
+                                        <input type="number" step="0.001" name="venous_ph" class="form-control" placeholder="7.000">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Base Excess</label>
+                                        <input type="number" step="0.1" name="venous_base_excess" class="form-control" placeholder="mEq/L">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Lactate</label>
+                                        <input type="number" step="0.1" name="venous_lactate" class="form-control" placeholder="mmol/L">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Foetal Hb</label>
+                                        <input type="number" step="0.1" name="venous_hb" class="form-control" placeholder="g/dL">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">pO2</label>
+                                        <input type="number" step="0.1" name="venous_po2" class="form-control" placeholder="mmHg">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">pCO2</label>
+                                        <input type="number" step="0.1" name="venous_pco2" class="form-control" placeholder="mmHg">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">HCO3</label>
+                                        <input type="number" step="0.1" name="venous_hco3" class="form-control" placeholder="mEq/L">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Submit button -->
-            <div class="mt-12 text-center">
-                <button type="submit" class="px-8 py-4 bg-blue-600 text-white font-semibold rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
-                    Submit Form
-                </button>
-            </div>
-        </form>
+                <!-- Navigation Buttons -->
+                <div class="sticky-nav-buttons">
+                    <button type="button" id="prevBtn" class="nav-btn prev-btn">
+                        <i class="bi bi-arrow-left"></i> PREVIOUS
+                    </button>
+                    <button type="button" id="nextBtn" class="nav-btn next-btn">
+                        NEXT <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-between mt-4 pt-3 border-top border-gray-600">
+                    <button type="button" id="resetBtn" class="btn btn-secondary px-4 py-2">
+                        RESET
+                    </button>
+                    <button type="submit" class="btn px-4 py-2" style="background-color: var(--pink-dark); color: white;">
+                        OUTPUT
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <!-- Pregnancy Loss Modal -->
+    <div class="modal fade" id="pregnancyLossModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pregnancy Loss Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Trimester</label>
+                        <select name="trimester" class="form-select">
+                            <option value="">Select Trimester</option>
+                            <option value="first">First Trimester</option>
+                            <option value="second">Second Trimester</option>
+                            <option value="third">Third Trimester</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Losses</label>
+                        <input type="number" name="loss_count" class="form-control" placeholder="Number">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab navigation
+            const tabButtons = document.querySelectorAll('.nav-tabs .nav-link');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            
+            // Yes/No button functionality
+            document.querySelectorAll('.yes-btn, .no-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    const value = this.getAttribute('data-value');
+                    const group = this.closest('.yes-no-group');
+                    
+                    // Toggle active class
+                    group.querySelectorAll('.yes-btn, .no-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update hidden input value
+                    document.querySelector(`input[name="${target}"]`).value = value;
+                    
+                    // Special handling for multiple pregnancy
+                    if (target === 'multiple_pregnancy') {
+                        const details = document.getElementById('multiplePregnancyDetails');
+                        if (value === 'yes') {
+                            details.classList.remove('d-none');
+                        } else {
+                            details.classList.add('d-none');
+                        }
+                    }
+                });
+            });
+            
+            // Pregnancy Loss Modal
+            const pregnancyLossBtn = document.getElementById('pregnancyLossBtn');
+            const pregnancyLossModal = new bootstrap.Modal(document.getElementById('pregnancyLossModal'));
+            
+            pregnancyLossBtn.addEventListener('click', function() {
+                pregnancyLossModal.show();
+            });
+            
+            // Tab navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.addEventListener('click', function() {
+                const activeTab = document.querySelector('.nav-tabs .nav-link.active');
+                const prevTab = activeTab.parentElement.previousElementSibling;
+                
+                if (prevTab) {
+                    const prevTabLink = prevTab.querySelector('.nav-link');
+                    bootstrap.Tab.getInstance(prevTabLink).show();
+                }
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                const activeTab = document.querySelector('.nav-tabs .nav-link.active');
+                const nextTab = activeTab.parentElement.nextElementSibling;
+                
+                if (nextTab) {
+                    const nextTabLink = nextTab.querySelector('.nav-link');
+                    bootstrap.Tab.getInstance(nextTabLink).show();
+                }
+            });
+            
+            // Form reset
+            const resetBtn = document.getElementById('resetBtn');
+            const medicalForm = document.getElementById('medicalForm');
+            
+            resetBtn.addEventListener('click', function() {
+                medicalForm.reset();
+                
+                // Reset yes/no buttons
+                document.querySelectorAll('.yes-btn, .no-btn').forEach(btn => {
+                    if (btn.classList.contains('no-btn')) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                // Reset hidden inputs
+                document.querySelectorAll('input[type="hidden"]').forEach(input => {
+                    input.value = 'no';
+                });
+                
+                // Hide multiple pregnancy details
+                document.getElementById('multiplePregnancyDetails').classList.add('d-none');
+            });
+            
+            // Form submission
+            medicalForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add your form submission logic here
+                alert('Form submitted!');
+            });
+        });
+    </script>
 </body>
 </html>
