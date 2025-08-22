@@ -7,7 +7,6 @@
     <title>Medical Assessment Questionnaire</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-
     <link rel="stylesheet" href="input.css">
 </head>
 
@@ -15,23 +14,15 @@
     <div class="container mx-auto px-4 py-4">
         <!-- Header -->
         <div class="bg-pink-700 text-white p-4 rounded-t-lg ">
-            <h1 class="text-xl font-semibold text-center ">Medical Assessment</h1>
+            <h1 class="text-xl font-semibold text-center">Medical Assessment</h1>
         </div>
 
         <!-- Navigation Tabs -->
         <div class="bg-gray-800 flex border-b border-gray-600">
-            <button id="maternalTab" class="tab-btn active px-6 py-3  border-b-2 ">
-                Maternal
-            </button>
-            <button id="placentalTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">
-                Placental
-            </button>
-            <button id="foetalTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">
-                Foetal
-            </button>
-            <button id="cordBloodTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">
-                Cord Blood
-            </button>
+            <button id="maternalTab" class="tab-btn active px-6 py-3  border-b-2 ">Maternal</button>
+            <button id="placentalTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">Placental</button>
+            <button id="foetalTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">Foetal</button>
+            <button id="cordBloodTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">Cord Blood</button>
         </div>
 
         <!-- Form Container -->
@@ -42,15 +33,15 @@
                 <div id="maternalSection" class="section active">
                     <h2 class="text-lg font-semibold mb-4 text-pink-300">Maternal Variables</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                        <!-- Maternal Age -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                        <!-- x1 Maternal Age -->
                         <div class="form-group">
                             <label class="form-label">1. Maternal Age</label>
-                            <input type="number" name="maternal_age" class="form-input-small"
-                                placeholder="Enter age in years">
+                            <input type="number" name="maternal_age" class="form-input-small" placeholder="Enter age in years">
                         </div>
 
-                        <!-- Maternal Parity -->
+                        <!-- x2 Maternal Parity -->
                         <div class="form-group">
                             <label class="form-label">2. Maternal Parity</label>
                             <select name="maternal_parity" class="form-select-small">
@@ -59,75 +50,65 @@
                                 <option value="multiparous">Multiparous</option>
                             </select>
                         </div>
-                        <!-- Number of Previous Pregnancies -->
+
+                        <!-- No. of Previous Pregnancies -->
                         <div class="form-group">
                             <label class="form-label">3. Number of Previous Pregnancies</label>
-                            <input type="number" name="prev_pregnancies" class="form-input-small"
-                                placeholder="Enter number">
+                            <input type="number" name="prev_pregnancies" class="form-input-small" placeholder="Enter number">
                         </div>
 
-                        <!-- Current Gestational Age -->
-                        <div class="form-group">
-                            <label class="form-label">4. Current Gestational Age in Weeks</label>
-
-                            <input type="number" name="gestation_weeks" class="form-input-small" placeholder="Weeks"
-                                max="42">
+                        <!-- Antenatal Problems -->
+                        <div class="form-group col-span-3">
+                            <label class="form-label">4. Antenatal Problems (Specify)</label>
+                            <textarea name="antenatal_problems" class="form-input-small w-full" placeholder="Describe problems if any"></textarea>
                         </div>
 
+                        <!-- Outcomes -->
+                        <div class="form-group col-span-3">
+                            <label class="form-label">5. Previous Pregnancy Outcomes</label>
+                            <textarea name="previous_outcomes" class="form-input-small w-full" placeholder="Mode of delivery, birth weight, gestational age"></textarea>
+                        </div>
 
-
-                        <!-- Previous IUD/Stillbirth -->
+                        <!-- x12 Previous IUD/Stillbirth -->
                         <div class="form-group">
-                            <label class="form-label">5. Previous IUD/Stillbirth ?</label>
+                            <label class="form-label">6. Previous IUD/Stillbirth?</label>
                             <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="prev_iud_stillbirth"
-                                    data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="prev_iud_stillbirth"
-                                    data-value="no">
-                                    ✓ NO
-                                </button>
+                                <button type="button" class="yes-btn" data-target="prev_iud_stillbirth" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="prev_iud_stillbirth" data-value="no">✓ NO</button>
                             </div>
                             <input type="hidden" name="prev_iud_stillbirth" value="no">
                         </div>
 
                         <!-- Previous IUGR/SGA -->
                         <div class="form-group">
-                            <label class="form-label">5. Previous IUGR/SGA?</label>
+                            <label class="form-label">7. Previous IUGR/SGA?</label>
                             <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="prev_iugr_sga" data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="prev_iugr_sga" data-value="no">
-                                    ✓ NO
-                                </button>
+                                <button type="button" class="yes-btn" data-target="prev_iugr_sga" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="prev_iugr_sga" data-value="no">✓ NO</button>
                             </div>
                             <input type="hidden" name="prev_iugr_sga" value="no">
                         </div>
 
-                        <!-- Pregnancy Loss History -->
+                        <!-- Gynaecological History -->
+                        <div class="form-group col-span-3">
+                            <label class="form-label">8. Gynaecological History</label>
+                            <textarea name="gyn_history" class="form-input-small w-full" placeholder="Specify history"></textarea>
+                        </div>
+
+                        <!-- Pregnancy Loss -->
                         <div class="form-group">
-                            <label class="form-label">6. History of Pregnancy Loss?</label>
+                            <label class="form-label">9. History of Pregnancy Loss?</label>
                             <div class="yes-no-group">
-                                <button type="button" id="pregnancyLossBtn" class="yes-btn" data-target="pregnancy_loss"
-                                    data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="pregnancy_loss"
-                                    data-value="no">
-                                    ✓ NO
-                                </button>
+                                <button type="button" class="yes-btn" data-target="pregnancy_loss" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="pregnancy_loss" data-value="no">✓ NO</button>
                             </div>
                             <input type="hidden" name="pregnancy_loss" value="no">
                         </div>
 
-                        <!-- Modal -->
-                        <div id="pregnancyLossModal" tabindex="-1" aria-hidden="true"
-                            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                        <!-- Modal for Pregnancy Loss -->
+                        <div id="pregnancyLossModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60">
                             <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 w-full max-w-md">
                                 <h3 class="text-lg font-semibold mb-4">Pregnancy Loss Details</h3>
-
                                 <div class="space-y-3">
                                     <div>
                                         <label class="form-label-small">Trimester</label>
@@ -140,93 +121,255 @@
                                     </div>
                                     <div>
                                         <label class="form-label-small">Number of Losses</label>
-                                        <input type="number" name="loss_count" class="form-input-small w-full"
-                                            placeholder="Number">
+                                        <input type="number" name="loss_count" class="form-input-small w-full" placeholder="Number">
                                     </div>
                                 </div>
-
                                 <div class="flex justify-end space-x-2 mt-6">
-                                    <button id="closePregnancyLoss" type="button"
-                                        class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-500">Close</button>
+                                    <button id="closePregnancyLoss" type="button" class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-500">Close</button>
                                 </div>
                             </div>
                         </div>
 
-
-
-
-
-                        <!-- Hypertension in Pregnancy -->
+                        <!-- Current Gestational Age -->
                         <div class="form-group">
-                            <label class="form-label">9. Hypertension in Pregnancy?</label>
-                            <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="hypertension" data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="hypertension" data-value="no">
-                                    ✓ NO
-                                </button>
-                            </div>
-                            <input type="hidden" name="hypertension" value="no">
-                        </div>
-
-                        <!-- Diabetes in Pregnancy -->
-                        <div class="form-group">
-                            <label class="form-label">10. Diabetes in Pregnancy?</label>
-                            <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="diabetes" data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="diabetes" data-value="no">
-                                    ✓ NO
-                                </button>
-                            </div>
-                            <input type="hidden" name="diabetes" value="no">
-                        </div>
-
-                        <!-- Maternal Autoimmune Disorders -->
-                        <div class="form-group">
-                            <label class="form-label">11. Maternal Autoimmune Disorders?</label>
-                            <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="autoimmune" data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="autoimmune" data-value="no">
-                                    ✓ NO
-                                </button>
-                            </div>
-                            <input type="hidden" name="autoimmune" value="no">
+                            <label class="form-label">10. Current Gestational Age (Weeks)</label>
+                            <input type="number" name="gestation_weeks" class="form-input-small" placeholder="Weeks" max="42">
                         </div>
 
                         <!-- PAPP-A Level -->
                         <div class="form-group">
-                            <label class="form-label">8. PAPP-A Level</label>
-                            <input type="number" step="0.01" name="papp_a_level" class="form-input-small"
-                                placeholder="Enter PAPP-A level">
+                            <label class="form-label">11. PAPP-A Level</label>
+                            <input type="number" step="0.01" name="papp_a_level" class="form-input-small" placeholder="Enter PAPP-A level">
                         </div>
 
-                        <!-- BMI -->
+                        <!-- Hypertension -->
                         <div class="form-group">
-                            <label class="form-label">12. BMI</label>
-                            <input type="number" step="0.1" name="bmi" class="form-input-small" placeholder="Enter BMI">
+                            <label class="form-label">12. Hypertension in Pregnancy?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="hypertension" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="hypertension" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="hypertension" value="no">
                         </div>
 
-                        <!-- Race -->
+                        <!-- Diabetes -->
                         <div class="form-group">
-                            <label class="form-label">13. Race</label>
-                            <select name="race" class="form-select-small">
+                            <label class="form-label">13. Diabetes in Pregnancy?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="diabetes" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="diabetes" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="diabetes" value="no">
+                        </div>
+
+                        <!-- Autoimmune Disorders -->
+                        <div class="form-group">
+                            <label class="form-label">14. Maternal Autoimmune Disorders?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="autoimmune" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="autoimmune" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="autoimmune" value="no">
+                        </div>
+
+                        <!-- Smoking -->
+                        <div class="form-group">
+                            <label class="form-label">15. Smoking in Pregnancy?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="smoking" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="smoking" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="smoking" value="no">
+                        </div>
+
+                        <!-- Reduced Fetal Movements -->
+                        <div class="form-group">
+                            <label class="form-label">16. Reduced Foetal Movements?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="reduced_movements" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="reduced_movements" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="reduced_movements" value="no">
+                        </div>
+
+                        <!-- Modal for Reduced Foetal Movements -->
+                        <div id="movementModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                            <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                                <h3 class="text-lg font-semibold mb-4">Reduced Foetal Movements</h3>
+                                <div>
+                                    <label class="form-label-small">Number of Episodes</label>
+                                    <input type="number" name="movement_episodes" class="form-input-small w-full" placeholder="Enter count">
+                                </div>
+                                <div class="flex justify-end space-x-2 mt-6">
+                                    <button id="closeMovementModal" type="button" class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-500">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bleeding -->
+                        <div class="form-group">
+                            <label class="form-label">17. Bleeding in Pregnancy/Labor?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="bleeding" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="bleeding" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="bleeding" value="no">
+                        </div>
+
+                        <!-- Medications in Pregnancy -->
+                        <div class="form-group col-span-3">
+                            <label class="form-label">18. Medications in Pregnancy</label>
+                            <textarea name="preg_medications" class="form-input-small w-full" placeholder="List medications if any"></textarea>
+                        </div>
+
+                        <!-- Induction of Labor -->
+                        <div class="form-group">
+                            <label class="form-label">19. Induction of Labor?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="induction" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="induction" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="induction" value="no">
+                        </div>
+
+                        <!-- Modal for Induction -->
+                        <div id="inductionModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                            <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                                <h3 class="text-lg font-semibold mb-4">Induction Details</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="form-label-small">Method</label>
+                                        <select name="induction_method" class="form-input-small w-full">
+                                            <option value="">Select Method</option>
+                                            <option value="oxytocin">Oxytocin</option>
+                                            <option value="prostaglandin">Prostaglandin</option>
+                                            <option value="mechanical">Mechanical</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="form-label-small">Medication</label>
+                                        <input type="text" name="induction_medication" class="form-input-small w-full" placeholder="Enter medication">
+                                    </div>
+                                    <div>
+                                        <label class="form-label-small">Total Dose</label>
+                                        <input type="number" name="induction_dose" class="form-input-small w-full" placeholder="Enter dose">
+                                    </div>
+                                </div>
+                                <div class="flex justify-end space-x-2 mt-6">
+                                    <button id="closeInductionModal" type="button" class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-500">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Infection -->
+                        <div class="form-group">
+                            <label class="form-label">20. Infection in Pregnancy?</label>
+                            <div class="yes-no-group">
+                                <button type="button" class="yes-btn" data-target="infection" data-value="yes">✓ YES</button>
+                                <button type="button" class="no-btn active" data-target="infection" data-value="no">✓ NO</button>
+                            </div>
+                            <input type="hidden" name="infection" value="no">
+                        </div>
+
+                        <!-- Rupture of Membranes -->
+                        <div class="form-group">
+                            <label class="form-label">21. Rupture of Membranes (Date & Time)</label>
+                            <input type="datetime-local" name="rupture_datetime" class="form-input-small">
+                        </div>
+
+                        <!-- Color of Liquor -->
+                        <div class="form-group">
+                            <label class="form-label">22. Color of Liquor</label>
+                            <select name="liquor_color" class="form-select-small">
                                 <option value="" hidden selected>Please Select</option>
-                                <option value="caucasian">Caucasian</option>
-                                <option value="asian">Asian</option>
-                                <option value="african">African</option>
-                                <option value="other">Other</option>
+                                <option value="clear">Clear</option>
+                                <option value="meconium">Meconium</option>
+                                <option value="blood">Blood Stained</option>
+                                <option value="pus">Pus</option>
                             </select>
                         </div>
 
+                        <!-- Smell of Liquor -->
+                        <div class="form-group">
+                            <label class="form-label">23. Smell of Liquor</label>
+                            <select name="liquor_smell" class="form-select-small">
+                                <option value="" hidden selected>Please Select</option>
+                                <option value="no">No Smell</option>
+                                <option value="offensive">Offensive</option>
+                            </select>
+                        </div>
+
+                       <!-- x25 Male Factor IVF -->
+<div class="yes-no-group">
+<button type="button" class="yes-btn" data-target="male_factor_ivf" data-value="yes">✓ YES</button>
+<button type="button" class="no-btn active" data-target="male_factor_ivf" data-value="no">✓ NO</button>
+</div>
+<input type="hidden" name="male_factor_ivf" value="no">
+</div>
 
 
-                    </div>
-                </div>
+<!-- Modal Male Factor IVF -->
+<div id="maleFactorModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+<div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 w-full max-w-md">
+<h3 class="text-lg font-semibold mb-4">Male Factor Details</h3>
+<textarea name="male_factor_details" class="form-input-small w-full" placeholder="Specify male factor"></textarea>
+<div class="flex justify-end space-x-2 mt-6">
+<button id="closeMaleFactorModal" type="button" class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-500">Close</button>
+</div>
+</div>
+</div>
+
+
+<!-- x26 ICSI/IMSI -->
+<div class="form-group">
+<label class="form-label">26. ICSI/IMSI?</label>
+<div class="yes-no-group">
+<button type="button" class="yes-btn" data-target="icsi_imsi" data-value="yes">✓ YES</button>
+<button type="button" class="no-btn active" data-target="icsi_imsi" data-value="no">✓ NO</button>
+</div>
+<input type="hidden" name="icsi_imsi" value="no">
+</div>
+
+
+<!-- x28 Maternal Fever in Labor -->
+<div class="form-group">
+<label class="form-label">28. Maternal Fever in Labor?</label>
+<div class="yes-no-group">
+<button type="button" class="yes-btn" data-target="maternal_fever" data-value="yes">✓ YES</button>
+<button type="button" class="no-btn active" data-target="maternal_fever" data-value="no">✓ NO</button>
+</div>
+<input type="hidden" name="maternal_fever" value="no">
+</div>
+
+
+<!-- x29 Maternal Sepsis in Labor -->
+<div class="form-group">
+<label class="form-label">29. Maternal Sepsis in Labor?</label>
+<div class="yes-no-group">
+<button type="button" class="yes-btn" data-target="maternal_sepsis" data-value="yes">✓ YES</button>
+<button type="button" class="no-btn active" data-target="maternal_sepsis" data-value="no">✓ NO</button>
+</div>
+<input type="hidden" name="maternal_sepsis" value="no">
+</div>
+
+
+<!-- x30 Other Maternal Conditions -->
+<div class="form-group col-span-3">
+<label class="form-label">30. Other Maternal Conditions</label>
+<textarea name="other_conditions" class="form-input-small w-full" placeholder="Specify condition"></textarea>
+</div>
+
+
+<!-- x31 Maternal Medications in Labor -->
+<div class="form-group col-span-3">
+<label class="form-label">31. Maternal Medications in Labor</label>
+<textarea name="maternal_meds_labor" class="form-input-small w-full" placeholder="Specify medications"></textarea>
+</div>
+
+
+</div>
+</div>
+
 
                 <!-- Placental Variables Section -->
                 <div id="placentalSection" class="section hidden">

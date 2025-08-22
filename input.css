@@ -70,6 +70,7 @@
     color: white;
     font-size: 0.85rem;
     transition: all 0.2s ease;
+     line-height: 1.5rem;
 }
 
 .form-input-small:focus {
@@ -106,6 +107,7 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+
 }
 
 .yes-btn, .no-btn {
@@ -715,17 +717,24 @@ background-color: #be185d;
     border-color: var(--pink-light);
     box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
 }
-
+input[type='number']{
+    max-width: 70%;
+}
+/* select[name='maternal_parity']{
+    max-width: 70%;
+} */
 .form-select-small {
     width: 100%;
-    padding: 0.5rem;
     background-color: #374151;
+    background-size: 1.3rem;
     border: 1px solid #4b5563;
     border-radius: 0.375rem;
     color: white;
     font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.2s ease;
+     min-height: 2.5rem;   /* instead of max-height */
+    line-height: normal;
 }
 
 .form-select-small:focus {
@@ -852,6 +861,8 @@ background-color: #be185d;
     background-color: #374151;
     color: white;
     padding: 0.5rem;
+    border-bottom: 1px solid #4b5563; /* subtle divider line */
+    font-size: 0.9rem;
 }
 
 .form-select-small option:hover {
