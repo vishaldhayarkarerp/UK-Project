@@ -59,12 +59,16 @@
                                 <option value="multiparous">Multiparous</option>
                             </select>
                         </div>
-                        <!-- Number of Previous Pregnancies -->
-                        <div class="form-group">
-                            <label class="form-label">3. Number of Previous Pregnancies</label>
-                            <input type="number" name="prev_pregnancies" class="form-input-small"
-                                placeholder="Enter number">
-                        </div>
+                       <!-- Number of Previous Pregnancies -->
+                    <div class="form-group mb-4 col-span-3">
+                    <label class="form-label block text-gray-200 mb-2">3. Number of Previous Pregnancies</label>
+                    <input type="number" id="prevPreg" name="prev_pregnancies" class="form-input-small w-32 text-gray-900 rounded-lg" min="0" value="0">
+                    </div>
+
+                    <!-- Dynamic pregnancy history table -->
+                    <div id="pregHistory" class="col-span-5"></div>
+
+
 
                         <!-- Current Gestational Age -->
                         <div class="form-group">
@@ -114,7 +118,7 @@
                                     data-value="yes">
                                     ✓ YES
                                 </button>
-                                <button type="button" id="pregnancyLossBtnNo" class="no-btn active" data-target="pregnancy_loss"
+                                <button type="button" class="no-btn active" data-target="pregnancy_loss"
                                     data-value="no">
                                     ✓ NO
                                 </button>
@@ -230,53 +234,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">15. Smoking in pregnancy?</label>
+                            <label class="form-label">15. Previous Pregnancy Outcomes</label>
                             <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="prev_iugr_sga" data-value="yes">
+                                <button type="button" id="pregnancyLossBtn" class="yes-btn" data-target="pregnancy_loss"
+                                    data-value="yes">
                                     ✓ YES
                                 </button>
-                                <button type="button" class="no-btn active" data-target="prev_iugr_sga" data-value="no">
+                                <button type="button" class="no-btn active" data-target="pregnancy_loss"
+                                    data-value="no">
                                     ✓ NO
                                 </button>
                             </div>
-                          
+                            <input type="hidden" name="pregnancy_loss" value="no">
                         </div>
+                        
+                        
 
-                         <div class="form-group">
-                            <label class="form-label">16. Maternal autoimmune disorder?</label>
-                            <div class="yes-no-group">
-                                <button type="button" class="yes-btn" data-target="prev_iugr_sga" data-value="yes">
-                                    ✓ YES
-                                </button>
-                                <button type="button" class="no-btn active" data-target="prev_iugr_sga" data-value="no">
-                                    ✓ NO
-                                </button>
-                            </div>    
-                        </div>
-                    
-                        <!-- Reduced Foetal Movements -->
-                        <div class="form-group col-span-2">
-                            <label class="form-label">17. Reduced foetal movements in pregnancy?</label>
-                            <div class="yes-no-group flex items-center space-x-3">
-                                <!-- YES Button -->
-                                <button type="button" id="foetalMovementsYes" class="yes-btn" data-target="foetal_movements" data-value="yes">
-                                    ✓ YES
-                                </button>
 
-                                <!-- NO Button -->
-                                <button type="button" id="foetalMovementsNo" class="no-btn active" data-target="foetal_movements" data-value="no">
-                                    ✓ NO
-                                </button>
-
-                                <!-- Hidden Input for storing yes/no -->
-                                <input type="hidden" name="foetal_movements" value="no">
-
-                                <!-- Number of episodes input (hidden by default) -->
-                                <div id="episodesInput" class="hidden ">
-                                    <input type="number" id="episodes" name="episodes" class="form-input-small w-64 px-3 py-2 " placeholder="No of episodes">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

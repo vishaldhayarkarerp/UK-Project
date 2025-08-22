@@ -532,6 +532,9 @@ document.addEventListener("DOMContentLoaded", () => {
       pregnancyLossModal.classList.add("hidden");
       pregnancyLossBtn.textContent = "Show";
     });
+     pregnancyLossBtnNo.addEventListener("click", () => {
+      pregnancyLossBtn.textContent = "✓ YES";
+    });
   }
 
   // APGAR Modal
@@ -550,3 +553,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+   const yesBtn = document.getElementById("foetalMovementsYes");
+    const noBtn = document.getElementById("foetalMovementsNo");
+    const hiddenInput = document.querySelector("input[name='foetal_movements']");
+    const episodesDiv = document.getElementById("episodesInput");
+
+    yesBtn.addEventListener("click", function () {
+        hiddenInput.value = "yes";
+        yesBtn.classList.add("active");
+        noBtn.classList.remove("active");
+        episodesDiv.classList.remove("hidden"); // show input
+    });
+
+    noBtn.addEventListener("click", function () {
+        hiddenInput.value = "no";
+        noBtn.classList.add("active");
+        yesBtn.classList.remove("active");
+        episodesDiv.classList.add("hidden"); // hide input
+    });
+

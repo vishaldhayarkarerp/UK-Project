@@ -70,7 +70,7 @@
     color: white;
     font-size: 0.85rem;
     transition: all 0.2s ease;
-     line-height: 1.5rem;
+    line-height: 1.5rem;
 }
 
 .form-input-small:focus {
@@ -136,7 +136,7 @@
 .yes-btn.active {
     background-color: var(--pink-primary);
     color: white;
-    border-color: var(--pink-primary);
+    border: 1px solid var(--pink-primary);
 }
 
 .yes-btn:hover:not(.active) {
@@ -880,3 +880,4 @@ input[type='number']{
 .form-select-small:focus {
     animation: dropdownPulse 1.5s infinite;
 }
+
