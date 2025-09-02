@@ -471,8 +471,6 @@ function setupAutoSave() {
                 data[key] = value;
             }
             
-            // Note: localStorage is not available in Claude artifacts
-            // In a real implementation, you would save to localStorage or server
             console.log('Auto-saved:', data);
         }, 2000);
     });
@@ -574,3 +572,63 @@ document.addEventListener("DOMContentLoaded", () => {
         episodesDiv.classList.add("hidden"); // hide input
     });
 
+// Add this code to the existing uk.js file, inside the DOMContentLoaded event listener or at the end
+
+const previousPregnanciesBtn = document.getElementById("previousPregnanciesBtn");
+const previousPregnanciesModal = document.getElementById("previousPregnanciesModal");
+const closePreviousPregnancies = document.getElementById("closePreviousPregnancies");
+const previousPregnanciesTableBody = document.getElementById("previousPregnanciesTableBody");
+
+if (previousPregnanciesBtn) {
+    previousPregnanciesBtn.addEventListener("click", () => {
+        const numPreg = parseInt(document.querySelector('input[name="previous_pregnancies"]').value) || 0;
+        previousPregnanciesTableBody.innerHTML = '';
+
+        if (numPreg === 0) {
+            previousPregnanciesTableBody.innerHTML = '<tr><td colspan="6" class="p-2 text-center border-t border-gray-600">No previous pregnancies</td></tr>';
+        } else {
+            for (let i = 1; i <= numPreg; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="p-1 border-2 border-gray-600">${i}</td>
+                    <td class="p-1 border-2 border-gray-600">
+                        <input type="text" name="prev_preg_${i}_problems" class="form-input-small w-full" placeholder="Specify problems">
+                    </td>
+                    <td class="p-1 border-2 border-gray-600">
+                        <select name="prev_preg_${i}_outcome" class="form-select-small w-full">
+                            <option value="">Select</option>
+                            <option value="live">Live Birth</option>
+                            <option value="stillbirth">Stillbirth</option>
+                            <option value="miscarriage">Miscarriage</option>
+                            <option value="iud">IUD</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-2 border-gray-600">
+                        <select name="prev_preg_${i}_mode" class="form-select-small w-full">
+                            <option value="">Select</option>
+                            <option value="vaginal">Vaginal</option>
+                            <option value="csection">C-Section</option>
+                            <option value="instrumental">Instrumental</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-2 border-gray-600">
+                        <input type="number" name="prev_preg_${i}_weight" class="form-input-small w-full" placeholder="grams">
+                    </td>
+                    <td class="p-1 border-2 border-gray-600">
+                        <input type="number" name="prev_preg_${i}_ga" class="form-input-small w-full" placeholder="weeks">
+                    </td>
+                `;
+                previousPregnanciesTableBody.appendChild(row);
+            }
+        }
+
+        previousPregnanciesModal.classList.remove("hidden");
+        
+    });
+
+    closePreviousPregnancies.addEventListener("click", () => {
+        previousPregnanciesModal.classList.add("hidden");
+    });
+}

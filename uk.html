@@ -17,10 +17,9 @@
         <div class="bg-pink-700 text-white p-4 rounded-t-lg ">
             <h1 class="text-xl font-semibold text-center ">Medical Assessment</h1>
         </div>
-
         <!-- Navigation Tabs -->
         <div class="bg-gray-800 flex border-b border-gray-600">
-            <button id="maternalTab" class="tab-btn active px-6 py-3  border-b-2 ">
+            <button id="maternalTab" class="tab-btn active px-6 py-3 text-gray-400 border-b-2 hover:text-white">
                 Maternal
             </button>
             <button id="placentalTab" class="tab-btn px-6 py-3 text-gray-400 hover:text-white">
@@ -62,9 +61,39 @@
                         <!-- Number of Previous Pregnancies -->
                         <div class="form-group">
                             <label class="form-label">3. Number of Previous Pregnancies</label>
-                            <input type="number" name="prev_pregnancies" class="form-input-small"
-                                placeholder="Enter number">
+                            <input type="number" name="previous_pregnancies" class="form-input-small w-full"
+                                placeholder="Number">
+                            <button id="previousPregnanciesBtn" type="button" class="no-btn active small ml-2">Show</button>
                         </div>
+
+                        <div id="previousPregnanciesModal" tabindex="-1" aria-hidden="true"
+                            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                            <div class="bg-gray-800 text-white rounded-lg shadow-lg p-6 w-full max-w-6xl">
+                                <h3 class="text-lg font-semibold mb-4">Previous Pregnancies Details</h3>
+                                <div class="overflow-x-auto max-h-96">
+                                    <table class="w-full text-left text-sm border-2 border-gray-600">
+                                        <thead>
+                                            <tr class="border-2 border-gray-600">
+                                                <th class="p-2 border-2 border-gray-600">#</th>
+                                                <th class="p-2 border-2 border-gray-600">Antenatal Problems (Specify)</th>
+                                                <th class="p-2 border-2 border-gray-600">Outcome</th>
+                                                <th class="p-2 border-2 border-gray-600">Mode of Delivery</th>
+                                                <th class="p-2 border-2 border-gray-600 w-[120px] text-center">Birth Weight (g)</th>
+                                                <th class="p-2 border-2 border-gray-600 w-[120px]">Gestational Age (weeks)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="previousPregnanciesTableBody">
+                                            <!-- Dynamic rows will be inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="flex justify-end space-x-2 mt-6">
+                                    <button id="closePreviousPregnancies" type="button"
+                                        class="bg-gray-600 px-4 py-2 rounded-lg hover:bg-gray-500">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- Current Gestational Age -->
                         <div class="form-group">
@@ -114,8 +143,8 @@
                                     data-value="yes">
                                     ✓ YES
                                 </button>
-                                <button type="button" id="pregnancyLossBtnNo" class="no-btn active" data-target="pregnancy_loss"
-                                    data-value="no">
+                                <button type="button" id="pregnancyLossBtnNo" class="no-btn active"
+                                    data-target="pregnancy_loss" data-value="no">
                                     ✓ NO
                                 </button>
                             </div>
@@ -223,10 +252,11 @@
                             </select>
                         </div>
 
-                         <!-- Antenatal Problems -->
+                        <!-- Antenatal Problems -->
                         <div class="form-group ">
                             <label class="form-label">14. Antenatal Problems (Specify)</label>
-                            <textarea name="antenatal_problems" class="form-input-small" placeholder="Describe problems if any"></textarea>
+                            <textarea name="antenatal_problems" class="form-input-small"
+                                placeholder="Describe problems if any"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -239,10 +269,10 @@
                                     ✓ NO
                                 </button>
                             </div>
-                          
+
                         </div>
 
-                         <div class="form-group">
+                        <div class="form-group">
                             <label class="form-label">16. Maternal autoimmune disorder?</label>
                             <div class="yes-no-group">
                                 <button type="button" class="yes-btn" data-target="prev_iugr_sga" data-value="yes">
@@ -251,20 +281,22 @@
                                 <button type="button" class="no-btn active" data-target="prev_iugr_sga" data-value="no">
                                     ✓ NO
                                 </button>
-                            </div>    
+                            </div>
                         </div>
-                    
+
                         <!-- Reduced Foetal Movements -->
                         <div class="form-group col-span-2">
                             <label class="form-label">17. Reduced foetal movements in pregnancy?</label>
                             <div class="yes-no-group flex items-center space-x-3">
                                 <!-- YES Button -->
-                                <button type="button" id="foetalMovementsYes" class="yes-btn" data-target="foetal_movements" data-value="yes">
+                                <button type="button" id="foetalMovementsYes" class="yes-btn"
+                                    data-target="foetal_movements" data-value="yes">
                                     ✓ YES
                                 </button>
 
                                 <!-- NO Button -->
-                                <button type="button" id="foetalMovementsNo" class="no-btn active" data-target="foetal_movements" data-value="no">
+                                <button type="button" id="foetalMovementsNo" class="no-btn active"
+                                    data-target="foetal_movements" data-value="no">
                                     ✓ NO
                                 </button>
 
@@ -273,7 +305,8 @@
 
                                 <!-- Number of episodes input (hidden by default) -->
                                 <div id="episodesInput" class="hidden ">
-                                    <input type="number" id="episodes" name="episodes" class="form-input-small w-64 px-3 py-2 " placeholder="No of episodes">
+                                    <input type="number" id="episodes" name="episodes"
+                                        class="form-input-small w-64 px-3 py-2 " placeholder="No of episodes">
                                 </div>
                             </div>
                         </div>
@@ -462,11 +495,11 @@
                 <div id="cordBloodSection" class="section hidden">
                     <h2 class="text-lg font-semibold mb-4 text-pink-300">Cord Blood Analysis</h2>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="flex flex-col space-y-6">
                         <!-- Arterial -->
-                        <div>
+                        <div class="pb-4 border-b border-gray-500">
                             <h3 class="text-md font-semibold mb-3 text-blue-300">Arterial</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                 <div class="form-group">
                                     <label class="form-label-small">pH</label>
                                     <input type="number" step="0.001" name="arterial_ph" class="form-input-small"
@@ -506,9 +539,9 @@
                         </div>
 
                         <!-- Venous -->
-                        <div>
+                        <div class="pt-1">
                             <h3 class="text-md font-semibold mb-3 text-green-300">Venous</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                 <div class="form-group">
                                     <label class="form-label-small">pH</label>
                                     <input type="number" step="0.001" name="venous_ph" class="form-input-small"
@@ -549,6 +582,7 @@
                     </div>
                 </div>
 
+
                 <!-- Navigation Buttons -->
                 <div class="sticky-nav-buttons">
                     <button type="button" id="prevBtn" class="nav-btn prev-btn">
@@ -573,6 +607,7 @@
             </form>
         </div>
     </div>
+
 
     <script src="uk.js"></script>
 </body>
